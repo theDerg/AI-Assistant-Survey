@@ -454,6 +454,19 @@
         <label for="r1i"><span class="pill-dot"></span>Any Engineering / Technical Field</label>
         <input type="radio" name="role" id="r1j" class="pill-option" value="Other">
         <label for="r1j"><span class="pill-dot"></span>Other</label>
+        
+        <!-- Only shows if "Other" is selected -->
+<div id="roleOtherWrap" style="grid-column: 1 / -1; display:none;">
+  <input
+    type="text"
+    id="role_other"
+    name="role_other"
+    placeholder="Please specify your role..."
+    autocomplete="organization-title"
+  />
+</div>
+        <!-- end -->
+        
       </div>
     </div>
 
@@ -777,6 +790,26 @@
     }
   }
 
+    // --- "Other" role text field toggle ---
+  const roleOtherRadio = document.getElementById('r1j');
+  const roleOtherWrap  = document.getElementById('roleOtherWrap');
+  const roleOtherInput = document.getElementById('role_other');
+  const roleRadios     = document.querySelectorAll('input[name="role"]');
+
+  function syncRoleOther() {
+    const isOther = roleOtherRadio && roleOtherRadio.checked;
+
+    if (roleOtherWrap) roleOtherWrap.style.display = isOther ? 'block' : 'none';
+    if (roleOtherInput) {
+      roleOtherInput.required = isOther;
+      if (!isOther) roleOtherInput.value = '';
+    }
+  }
+
+  roleRadios.forEach(r => r.addEventListener('change', syncRoleOther));
+  syncRoleOther();
+// end
+  
   updateProgress();
 </script>
 </body>
